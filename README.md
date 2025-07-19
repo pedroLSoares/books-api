@@ -9,7 +9,7 @@ Este é um projeto responsável por disponibilizar a consulta de livros disponí
 
 ## Documentação Complementar
 
-- **[Arquitetura e processos](docs/arquitecture_design)** - Detalhes sobre a arquitetura e fluxo de processamento
+- **[Arquitetura e processos](docs/arquitecture_design.md)** - Detalhes sobre a arquitetura e fluxo de processamento
 
 - **[Uso para Machine Learning](docs/machine_learning_usage.md)** - Casos de uso e integração com ML
 
