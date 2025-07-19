@@ -44,7 +44,7 @@ def create_refresh_token(data: dict):
     refresh_token_expires = timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
     expire = datetime.now(timezone.utc) + refresh_token_expires
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, os.getenv('TOKEN_SECRET_KEY'), algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, os.getenv('REFRESH_TOKEN_SECRET_KEY'), algorithm=ALGORITHM)
     return encoded_jwt
 
 def verify_jwt(jwtoken: str) -> bool:
