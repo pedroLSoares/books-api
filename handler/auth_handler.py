@@ -4,6 +4,8 @@ from services.users_service import UsersService
 from dto.RegisterUser import RegisterUser
 from dto.LoginUser import LoginUser
 from config.database_config import SessionDep
+from config.auth_config import oauth2_scheme, verify_jwt, decode_jwt, create_access_token
+from fastapi import Depends
 
 logger = logging.getLogger(__name__)
 
@@ -34,11 +36,27 @@ def login_user_handler(req: LoginUser, session: SessionDep):
     try:
         logger.info("Logging in user")
         users_service = UsersService(session)
-        token = users_service.login_user(req)
-        return {"status": "logged in", "token": token}
+        tokens = users_service.login_user(req)
+        return {"status": "logged in", "tokens": tokens}
     except Exception as e:
-        logger.error(f"Error on auth: {e}")
+        logger.error(f"Error on auth: {e.with_traceback()}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.post('/refresh')
+def refresh_token_handler(refresh_token: str = Depends(oauth2_scheme)):
+    """
+        Refresh a token
+    """
+    try:
+        isValid = verify_jwt(refresh_token)
+        if not isValid:
+            raise HTTPException(status_code=401, detail="Invalid token")
+        
+        decoded_token = decode_jwt(refresh_token)
+        token = create_access_token(data={"sub": decoded_token["sub"]})
+        return {"status": "token refreshed", "token": token}
+    except Exception as e:
+        logger.error(f"Error on refresh token: {e.with_traceback()}")
+        raise HTTPException(status_code=500, detail=str(e))
 
