@@ -6,7 +6,6 @@
 Este é um projeto responsável por disponibilizar a consulta de livros disponíveis no website https://books.toscrape.com/, com o objetivo que possa ser utilizado para consultas e usos em modelos de machine learning.
 
 
-
 ## Documentação Complementar
 
 - **[Arquitetura e processos](docs/arquitecture_design.md)** - Detalhes sobre a arquitetura e fluxo de processamento

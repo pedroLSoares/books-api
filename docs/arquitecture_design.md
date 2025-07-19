@@ -52,36 +52,6 @@ com os dados já formatados salvamos os resultados em um arquivo CSV local.
 
 Para a consulta dos dados resgatados, disponibilizamos uma série de endpoints REST para consumo.
 
-```python
-# 1. Listar todos os livros
-GET /api/v1/books
-# Response: List[Book]
-
-# 2. Buscar livros com filtros
-GET /api/v1/books/search?category=Fiction&min_price=10&max_price=50
-# Response: BookSearchResponse
-
-# 3. Obter livros mais bem avaliados
-GET /api/v1/books/top-rated?limit=10
-# Response: ResultsResponse[Book]
-
-# 4. Obter livros por faixa de preço
-GET /api/v1/books/price-range?min=20&max=40
-# Response: ResultsResponse[Book]
-
-# 5. Obter estatísticas
-GET /api/v1/stats/overview
-# Response: ResultsResponse[Dict]
-
-# 6. Obter categorias disponíveis
-GET /api/v1/categories
-# Response: ResultsResponse[str]
-
-# 7. Executar scraping
-POST /api/v1/jobs/scrape
-# Response: {"status": "ok"}
-```
-
 Todos os endpoints também estão disponíveis na documentação do swagger que podem ser encontradas no endpoint /docs
 
 
