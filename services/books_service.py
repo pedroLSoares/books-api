@@ -51,4 +51,4 @@ def get_books_by_price(min: float = 0, max: float = None):
 async def ingest_books_data():
     scrapper = Scrapper()
     data = await scrapper.extract_data()
-    write_to_csv(data, "books.csv")
+    write_to_csv(data, "tmp/books.csv")
