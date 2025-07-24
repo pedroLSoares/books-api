@@ -2,7 +2,7 @@ from repository.books_respository import get_all
 import statistics
 from services.scrapping_service import Scrapper
 from services.write_service import write_to_csv
-import pathlib
+import os
 
 
 
@@ -54,4 +54,4 @@ def get_books_by_price(min: float = 0, max: float = None):
 async def ingest_books_data():
     scrapper = Scrapper()
     data = await scrapper.extract_data()
-    write_to_csv(data, pathlib.Path().resolve() / "tmp" / "books.csv")
+    write_to_csv(data, os.path.join('/tmp', 'books.csv'))
