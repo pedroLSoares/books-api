@@ -1,9 +1,6 @@
-from repository.books_respository import get_all
+from repository.books_respository import get_all, save_all
 import statistics
 from services.scrapping_service import Scrapper
-from services.write_service import write_to_csv
-import os
-
 
 
 def get_book_categories():
@@ -54,4 +51,4 @@ def get_books_by_price(min: float = 0, max: float = None):
 async def ingest_books_data():
     scrapper = Scrapper()
     data = await scrapper.extract_data()
-    write_to_csv(data, os.path.join('/tmp', 'books.csv'))
+    save_all(data)
