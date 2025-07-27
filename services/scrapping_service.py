@@ -80,24 +80,28 @@ class Scrapper:
         """
             Extrai dados da baseUrl, o resultado é uma lista de livros com título, preço, avaliação, disponibilidade, categoria, imagem
         """
-        data = [] # title, price, rating, availability, category, image
-        tasks = []
-        soup = await self.scrape_website(self.baseUrl)
-        if soup:
-            print("✅ Requisição realizada com sucesso!")
-            print(f"Page title: {soup.title.get_text() if soup.title else 'Not found'}")
+        try:
+            data = [] # title, price, rating, availability, category, image
+            tasks = []
+            soup = await self.scrape_website(self.baseUrl)
+            if soup:
+                print("✅ Requisição realizada com sucesso!")
+                print(f"Page title: {soup.title.get_text() if soup.title else 'Not found'}")
 
-            for category in soup.find('div', class_='side_categories').find('ul').find('ul').find_all('a'):
-                categoryName = category.getText().strip()
-                link = category.get('href')
-                tasks.append(self.extract_page(self.baseUrl + link, categoryName))
+                for category in soup.find('div', class_='side_categories').find('ul').find('ul').find_all('a'):
+                    categoryName = category.getText().strip()
+                    link = category.get('href')
+                    tasks.append(self.extract_page(self.baseUrl + link, categoryName))
 
-        else:
-            print("❌ Erro ao extrair dados da página")
+            else:
+                print("❌ Erro ao extrair dados da página")
 
-        results = await asyncio.gather(*tasks)
-        for result in results:
-            data.extend(result)
+            results = await asyncio.gather(*tasks)
+            for result in results:
+                data.extend(result)
 
-        await self.client.aclose()
-        return data
+            await self.client.aclose()
+            return data
+        except Exception as e:
+            print(f"Erro ao extrair dados: {e}")
+            return []
