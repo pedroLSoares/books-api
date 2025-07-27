@@ -2,6 +2,9 @@ from sqlmodel import Session, SQLModel, create_engine
 from typing import Annotated
 from fastapi import Depends
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 class DatabaseConfig:
     def __init__(self):
@@ -12,6 +15,8 @@ class DatabaseConfig:
 
     def init_db(self):
         SQLModel.metadata.create_all(self.engine)
+        logger.info(f"Database initialized at {self.sqlite_file_name}")
+
 
     
     def get_session(self):
