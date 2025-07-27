@@ -3,21 +3,18 @@ from typing import Annotated
 from fastapi import Depends
 import os
 import logging
+from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
+load_dotenv()
+
 
 class DatabaseConfig:
     def __init__(self):
-        self.sqlite_file_name = os.path.join('/tmp', 'database.db')
-        self.sqlite_url = f"sqlite:///{self.sqlite_file_name}"
-        self.connect_args = {"check_same_thread": False}
-        self.engine = create_engine(self.sqlite_url, connect_args=self.connect_args)
+        self.engine = create_engine(os.getenv('DATABASE_URL'))
 
     def init_db(self):
         SQLModel.metadata.create_all(self.engine)
-        logger.info(f"Database initialized at {self.sqlite_file_name}")
-
-
     
     def get_session(self):
         with Session(self.engine) as session:
