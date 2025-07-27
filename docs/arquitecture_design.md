@@ -54,6 +54,39 @@ Para a consulta dos dados resgatados, disponibilizamos uma série de endpoints R
 
 Todos os endpoints também estão disponíveis na documentação do swagger que podem ser encontradas no endpoint /docs
 
+## Sistema de Autenticação e Armazenamento de Usuários
+
+### Banco de Dados
+
+O sistema utiliza **PostgreSQL** como banco de dados principal para armazenamento persistente dos dados de usuários.
+
+### Segurança de Senhas
+
+O sistema implementa as seguintes medidas de segurança para senhas:
+
+- **Criptografia bcrypt**: Todas as senhas são armazenadas utilizando hash bcrypt
+
+### Sistema de Autenticação JWT
+
+O sistema conta com o uso de tokens JWT para autenticação em endpoints privados. Atualmente geramos tanto o token JWT quanto o token de refresh, utilizado para gerar um novo token quando o primeiro expirar. 
+
+A expiração de um token JWT está configurada em 30 minutos, enquanto o de refresh tem uma validade de 30 dias.
+
+### Fluxo de Autenticação
+
+1. **Registro**: Usuário fornece name, email e password → Sistema valida dados → Senha é criptografada → Usuário salvo no banco
+2. **Login**: Usuário fornece email e password → Sistema verifica credenciais → Gera access_token e refresh_token
+3. **Acesso a rotas protegidas**: Cliente envia access_token no header Authorization → Sistema valida token → Acesso liberado
+4. **Renovação**: Cliente envia refresh_token → Sistema valida → Gera novo access_token
+
+### Middleware de Autenticação
+
+As rotas protegidas utilizam middleware personalizado (`JWTBearer`) que:
+
+- Intercepta requisições para endpoints protegidos
+- Valida formato e assinatura do token JWT
+- Verifica expiração do token
+- Retorna erro 401 para tokens inválidos ou expirados
 
 ## Evolução 
 
