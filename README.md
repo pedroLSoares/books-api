@@ -6,7 +6,6 @@
 Este é um projeto responsável por disponibilizar a consulta de livros disponíveis no website https://books.toscrape.com/, com o objetivo que possa ser utilizado para consultas e usos em modelos de machine learning.
 
 
-
 ## Documentação Complementar
 
 - **[Arquitetura e processos](docs/arquitecture_design.md)** - Detalhes sobre a arquitetura e fluxo de processamento
@@ -37,6 +36,82 @@ books_api_tech_challenge/
 - **`dto/`**: Data Transfer Objects utilizados para transferir dados entre as camadas da aplicação
 - **`config/`**: Configurações da aplicação, incluindo logs e outras configurações específicas
 - **`docs/`**: Documentação do projeto, incluindo diagramas e imagens explicativas
+
+## Autenticação e Autorização
+
+A API possui um sistema de autenticação baseado em JWT (JSON Web Tokens) que protege certas rotas sensíveis.
+
+### Registro de Usuário
+
+Para registrar um novo usuário na API:
+
+**Endpoint:** `POST /api/v1/auth/register`
+
+**Payload:**
+```json
+{
+    "name": "Nome do Usuário",
+    "email": "usuario@email.com",
+    "password": "senha123"
+}
+```
+
+**Resposta de sucesso:**
+```json
+{
+    "status": "created"
+}
+```
+
+### Login de Usuário
+
+Para autenticar um usuário e obter tokens de acesso:
+
+**Endpoint:** `POST /api/v1/auth/login`
+
+**Payload:**
+```json
+{
+    "email": "usuario@email.com",
+    "password": "senha123"
+}
+```
+
+**Resposta de sucesso:**
+```json
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+### Refresh de Token
+
+Para obter um novo access token usando o refresh token:
+
+**Endpoint:** `POST /api/v1/auth/refresh`
+
+**Headers:**
+```
+Authorization: Bearer {refresh_token}
+```
+
+**Resposta de sucesso:**
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+### Rotas Protegidas
+
+As seguintes rotas requerem autenticação via JWT token no header `Authorization: Bearer {access_token}`:
+
+- **`POST /api/v1/scraping/trigger`** - Executa o processo de web scraping dos livros
+
+### Rotas Públicas
+
+Todas as outras rotas da API são públicas e não requerem autenticação:
 
 ## Executando localmente
 

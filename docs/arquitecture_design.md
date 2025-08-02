@@ -52,38 +52,41 @@ com os dados já formatados salvamos os resultados em um arquivo CSV local.
 
 Para a consulta dos dados resgatados, disponibilizamos uma série de endpoints REST para consumo.
 
-```python
-# 1. Listar todos os livros
-GET /api/v1/books
-# Response: List[Book]
-
-# 2. Buscar livros com filtros
-GET /api/v1/books/search?category=Fiction&min_price=10&max_price=50
-# Response: BookSearchResponse
-
-# 3. Obter livros mais bem avaliados
-GET /api/v1/books/top-rated?limit=10
-# Response: ResultsResponse[Book]
-
-# 4. Obter livros por faixa de preço
-GET /api/v1/books/price-range?min=20&max=40
-# Response: ResultsResponse[Book]
-
-# 5. Obter estatísticas
-GET /api/v1/stats/overview
-# Response: ResultsResponse[Dict]
-
-# 6. Obter categorias disponíveis
-GET /api/v1/categories
-# Response: ResultsResponse[str]
-
-# 7. Executar scraping
-POST /api/v1/jobs/scrape
-# Response: {"status": "ok"}
-```
-
 Todos os endpoints também estão disponíveis na documentação do swagger que podem ser encontradas no endpoint /docs
 
+## Sistema de Autenticação e Armazenamento de Usuários
+
+### Banco de Dados
+
+O sistema utiliza **PostgreSQL** como banco de dados principal para armazenamento persistente dos dados de usuários.
+
+### Segurança de Senhas
+
+O sistema implementa as seguintes medidas de segurança para senhas:
+
+- **Criptografia bcrypt**: Todas as senhas são armazenadas utilizando hash bcrypt
+
+### Sistema de Autenticação JWT
+
+O sistema conta com o uso de tokens JWT para autenticação em endpoints privados. Atualmente geramos tanto o token JWT quanto o token de refresh, utilizado para gerar um novo token quando o primeiro expirar. 
+
+A expiração de um token JWT está configurada em 30 minutos, enquanto o de refresh tem uma validade de 30 dias.
+
+### Fluxo de Autenticação
+
+1. **Registro**: Usuário fornece name, email e password → Sistema valida dados → Senha é criptografada → Usuário salvo no banco
+2. **Login**: Usuário fornece email e password → Sistema verifica credenciais → Gera access_token e refresh_token
+3. **Acesso a rotas protegidas**: Cliente envia access_token no header Authorization → Sistema valida token → Acesso liberado
+4. **Renovação**: Cliente envia refresh_token → Sistema valida → Gera novo access_token
+
+### Middleware de Autenticação
+
+As rotas protegidas utilizam middleware personalizado (`JWTBearer`) que:
+
+- Intercepta requisições para endpoints protegidos
+- Valida formato e assinatura do token JWT
+- Verifica expiração do token
+- Retorna erro 401 para tokens inválidos ou expirados
 
 ## Evolução 
 

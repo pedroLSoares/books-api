@@ -7,6 +7,9 @@ from handler.auth_handler import router as auth_router
 from config.database_config import DatabaseConfig
 from services.books_service import ingest_books_data
 import uvicorn
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
