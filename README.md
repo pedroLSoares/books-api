@@ -5,6 +5,8 @@
 
 Este é um projeto responsável por disponibilizar a consulta de livros disponíveis no website https://books.toscrape.com/, com o objetivo que possa ser utilizado para consultas e usos em modelos de machine learning.
 
+Detalhes sobre os pontos entregues neste repositório podem ser encontrados **[aqui](docs/challenge.md)**
+
 
 ## Documentação Complementar
 
@@ -129,7 +131,16 @@ Com o poetry instalado, podemos realizar a instalação das dependências do pro
 ```
 poetry install
 ```
+--- 
+Antes de executarmos a aplicação localmente, será necessário configurar um arquivo .env com os seguintes valores:
 
+TOKEN_SECRET_KEY=<secret_key_para_token_jwt>
+
+REFRESH_TOKEN_SECRET_KEY=<secret_key_para_refresh_token>
+
+DATABASE_URL=sqlite:///database.db -- ou qualquer outra conexão de DB que tenha
+
+--- 
 Para executar o projeto, executamos o seguinte comando
 
 ```

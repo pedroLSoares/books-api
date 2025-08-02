@@ -27,7 +27,15 @@ def decode_jwt(token: str):
         isValid = decoded_token["exp"] >= datetime.now(timezone.utc).timestamp()
         return decoded_token if isValid else None
     except Exception as e:
-        return {}
+        return None
+
+def decode_jwt_refresh(token: str):
+    try:
+        decoded_token = jwt.decode(token, os.getenv("REFRESH_TOKEN_SECRET_KEY"), algorithms=[ALGORITHM])
+        isValid = decoded_token["exp"] >= datetime.now(timezone.utc).timestamp() and decoded_token["type"] == "refresh"
+        return decoded_token if isValid else None
+    except Exception as e:
+        return None
 
 def create_access_token(data: dict):
     to_encode = data.copy()
@@ -41,7 +49,7 @@ def create_refresh_token(data: dict):
     to_encode = data.copy()
     refresh_token_expires = timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
     expire = datetime.now(timezone.utc) + refresh_token_expires
-    to_encode.update({"exp": expire})
+    to_encode.update({"exp": expire, "type": "refresh"})
     encoded_jwt = jwt.encode(to_encode, os.getenv('REFRESH_TOKEN_SECRET_KEY'), algorithm=ALGORITHM)
     return encoded_jwt
 
@@ -49,6 +57,17 @@ def verify_jwt(jwtoken: str) -> bool:
         isTokenValid: bool = False
         try:
             payload = decode_jwt(jwtoken)
+        except:
+            payload = None
+        if payload:
+            isTokenValid = True
+
+        return isTokenValid
+
+def verify_jwt_refresh(jwtoken: str) -> bool:
+        isTokenValid: bool = False
+        try:
+            payload = decode_jwt_refresh(jwtoken)
         except:
             payload = None
         if payload:

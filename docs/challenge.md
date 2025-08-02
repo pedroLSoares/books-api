@@ -1,0 +1,26 @@
+# Detalhes sobre as entregas contidas neste repositório
+
+- Código estruturado - <span style="color: green">✓</span>
+- REAMDE - <span style="color: green">✓</span>
+- webscrapping - <span style="color: green">✓</span>
+- documentação swagger - <span style="color: green">✓</span>
+- deploy vercel - <span style="color: green">✓</span>
+- diagrama fluxo - <span style="color: green">✓</span>
+- endpoints
+    - /api/v1/books <span style="color: green">✓</span> 
+    - /api/v1/books/{id} <span style="color: green">✓</span> 
+    - /api/v1/books/search?title={title}&category={category} <span style="color: green">✓</span> 
+    - /api/v1/categories - <span style="color: green">✓</span>
+    - /api/v1/health - <span style="color: green">✓</span>
+    - /api/v1/stats/overview <span style="color: green">✓</span>
+    - /api/v1/stats/categories <span style="color: green">✓</span>
+    - /api/v1/books/top-rated <span style="color: green">✓</span>
+    - /api/v1/books/price-range?min={min}&max={max} <span style="color: green">✓</span>
+    - /api/v1/auth/login <span style="color: green">✓</span>
+    - /api/v1/auth/refresh <span style="color: green">✓</span>
+    - /api/v1/scraping/trigger <span style="color: green">✓</span>
+    - /api/v1/ml/features <span style="color: red">✗</span>
+    - /api/v1/ml/training-data <span style="color: red">✗</span>
+    - /api/v1/ml/predictions <span style="color: red">✗</span>
+- logs <span style="color: green">✓</span>
+- auth <span style="color: green">✓</span> 
