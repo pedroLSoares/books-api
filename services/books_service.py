@@ -4,11 +4,17 @@ from services.scrapping_service import Scrapper
 from dto.StatsResponse import StatsResponse
 
 def get_book_categories():
+    """
+        Busca todas as categorias disponíveis
+    """
     all_books = get_all()
     categories = set([book.category for book in all_books])
     return list(categories)
 
 def search_books(query: dict):
+    """
+        Busca todos os livros dado os parâmetros recebidos na query.
+    """
     all_books = get_all()
     results = []
     for book in all_books:
@@ -17,6 +23,9 @@ def search_books(query: dict):
     return results
 
 def get_books_overview():
+    """
+        Retorna a quantidade de livros em cada rating
+    """
     all_books = get_all()
     median_price = statistics.median([book.price for book in all_books])
     rating_distribution = {
@@ -36,6 +45,9 @@ def get_books_overview():
     )
 
 def get_books_by_category():
+    """
+        Busca a quantidade de livros por categoria
+    """
     all_books = get_all()
     qty_by_category = {}
     for book in all_books:
@@ -44,17 +56,26 @@ def get_books_by_category():
     return qty_by_category
 
 def get_top_rated_books(limit: int):
+    """"
+        Busca os livros mais bem avaliados, com o limite recebido por parâmetro
+    """
     all_books = get_all()
     top_rated_books = sorted(all_books, key=lambda x: x.rating, reverse=True)[:limit]
     return top_rated_books
 
 def get_books_by_price(min: float = 0, max: float = None):
+    """
+        Busca os livros pelo range de preço
+    """
     all_books = get_all()
     books_by_price = [book for book in all_books if book.price >= min and (max is None or book.price <= max)]
     return books_by_price
 
 
 async def ingest_books_data():
+    """
+        Realiza a raspagem de dados de livros e os salva em um arquivo CSV
+    """
     scrapper = Scrapper()
     data = await scrapper.extract_data()
     save_all(data)

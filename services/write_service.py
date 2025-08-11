@@ -1,9 +1,8 @@
 import csv
-import json
 
 def write_to_csv(data: list, filename: str):
     """
-    Writes the given data to a csv file
+    Escreve os dados recebidos em um arquivo csv
     """
     with open(filename, 'w', newline='') as file:
         writer = csv.writer(file)
@@ -13,7 +12,7 @@ def write_to_csv(data: list, filename: str):
 
 def read_from_csv(filename: str):
     """
-    Reads the given csv file and returns the data as dictionary
+    Faz a leitura do arquivo CSV retornando os dados em formato dict
     """
     result = []
     with open(filename, 'r') as file:

@@ -4,10 +4,15 @@ import os
 
 
 def get_all():
+    if os.path.exists(os.path.join('/tmp', 'books.csv')) == False:
+        return []
+    
     data = read_from_csv(os.path.join('/tmp', 'books.csv'))
     return list(map(lambda book: Book(**book), data))
 
 def get_by_id(id: int):
+    if os.path.exists(os.path.join('/tmp', 'books.csv')) == False:
+        return []
     data = read_from_csv(os.path.join('/tmp', 'books.csv'))
     return Book(**data[id])
 
