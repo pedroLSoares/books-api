@@ -9,7 +9,7 @@ A Books API foi projetada especificamente para servir como uma fonte de dados es
 Ao iniciar a aplicação já é realizada uma inserção inicial dos dados na base CSV local, porém também é disponibilizado um endpoint para caso seja necessário realizar alguma atualização da base
 
 ```
-POST /api/v1/jobs/scrape
+POST /api/v1/scraping/trigger
 ```
 
 Com os dados já processados, os endpoints de consultas já ficam disponíveis que poderão ser utilizados para o treinamento de modelos. Os resultados já possuem os dados tratados para melhor consumo.
