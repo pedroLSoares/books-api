@@ -86,7 +86,6 @@ class Scrapper:
             soup = await self.scrape_website(self.baseUrl)
             if soup:
                 print("✅ Requisição realizada com sucesso!")
-                print(f"Page title: {soup.title.get_text() if soup.title else 'Not found'}")
 
                 for category in soup.find('div', class_='side_categories').find('ul').find('ul').find_all('a'):
                     categoryName = category.getText().strip()
