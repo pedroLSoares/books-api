@@ -4,20 +4,27 @@ import os
 from services.scrapping_service import Scrapper
 import asyncio
 
+
+def refresh_data():
+    data = asyncio.run(Scrapper().extract_data())
+    save_all(data)
+
 def get_all():
     if os.path.exists(os.path.join('/tmp', 'books.csv')) == False:
         """
          Caso o arquivo não exista, realiza o scraping e salva os dados no arquivo
         """
-        data = asyncio.run(Scrapper().extract_data())
-        save_all(data)
+        refresh_data()
     
     data = read_from_csv(os.path.join('/tmp', 'books.csv'))
     return list(map(lambda book: Book(**book), data))
 
 def get_by_id(id: int):
     if os.path.exists(os.path.join('/tmp', 'books.csv')) == False:
-        return []
+        """
+         Caso o arquivo não exista, realiza o scraping e salva os dados no arquivo
+        """
+        refresh_data()
     data = read_from_csv(os.path.join('/tmp', 'books.csv'))
     return Book(**data[id])
 
