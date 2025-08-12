@@ -16,7 +16,7 @@ router = APIRouter(
 @router.get('', response_model=list[Book])
 def get_books_handler():
     """
-        Get all books
+        Get all books, if the file does not exist, it will be created by scraping the website
     """
     try:
         logger.info("Getting all books")
