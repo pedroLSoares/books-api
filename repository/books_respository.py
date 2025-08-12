@@ -8,7 +8,7 @@ def get_all():
         """
          Caso o arquivo não exista, realiza o scraping e salva os dados no arquivo
         """
-        save_all(Scrapper().scrape_books())
+        save_all(Scrapper().extract_data())
     
     data = read_from_csv(os.path.join('/tmp', 'books.csv'))
     return list(map(lambda book: Book(**book), data))
